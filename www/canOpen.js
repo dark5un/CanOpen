@@ -1,10 +1,15 @@
-module.exports = function CanOpen(app, callback) {
+function isFunction(functionToCheck) {
+	var getType = {};
+	return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
+module.exports = function CanOpen(app, callback, errorCallback) {
 	cordova.exec(
 		// Success callback
 		callback,
 		// Failure callback
-		function(err) { console.log('Missing app scheme.');},
-		// Native Class Name 
+		isFunction(errorCallback) ? errorCallback : function(error) { console.log('canOpen:', error.message); },
+		// Native Class Name
 		"CanOpen",
 		// Name of method in native class.
 		"appCanOpen",
